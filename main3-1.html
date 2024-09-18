@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Learn Vue</title>
     <style>
         input {
             margin: 10px;
@@ -11,9 +10,6 @@
 </head>
 <body>
     <div id="mainpage" v-cloak>
-        <h1>Learning Vue</h1>
-        {{message}}
-        
         <login-form />
     </div>
 
@@ -26,8 +22,13 @@
             template: `
                 <form @submit.prevent ="handleSubmit">
                     <h1>{{ title }}</h1>
-                    <custom-input v-model="email" :label="emailLabel" />
-                    <custom-input v-model="password" :label="passwordLabel" />
+                    <custom-input 
+                        v-for="(input, index) in inputs"
+                        :key=" index"
+                        v-model="email"
+                        :label="input.label"
+                        :type="input.type"
+                     />
                     <button @click="login">Login</button>
                 </form>
             `,
@@ -35,15 +36,23 @@
             data() {
                 return {
                     title: 'Login Form - Please Login',
-                    email: '',
-                    password: '',
-                    emailLabel: 'Email',
-                    passwordLabel: 'Password'
+                    inputs: [
+                        {
+                            label: 'Email',
+                            value: '',
+                            type: 'email'
+                        },
+                        {
+                            label: 'password',
+                            value: '',
+                            type: 'password'
+                        }
+                    ]
                 }
             },
             methods: {
                 handleSubmit() {
-                    console.log(this.email, this.password)
+                    console.log(this.inputs[0].value, this.inputs[1].value)
                 }
             }
         })
@@ -52,10 +61,10 @@
             template: `
                 <label>
                     {{ label }}
-                    <input type="text" v-model="inputValue">
+                    <input :type="type" v-model="inputValue">
                 </label>
             `,
-            props: ['label', 'modelValue'],
+            props: ['label', 'type', 'modelValue'], 
             computed: {
                 inputValue: {
                     get() {
