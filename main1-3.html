@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Lean Vue</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="mainpage" v-cloak>
+        <h1>Learning Vue</h1>
+        {{message}}
+        <input v-model="message">
+
+
+        <!-- <button v-on:click="isVisible = !isVisible">Toggle Visibility</button> -->
+        <!-- <button @click="isVisible = !isVisible">Toggle Visibility</button> -->
+        <button @click="toggleBox">Toggle Visibility</button>
+        <div v-if="isVisible" class="box"></div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        let app = Vue.createApp({
+            data: function () {
+                return {
+                    message: "Hi World",
+                    isVisible: false
+                }
+            },
+            methods: {
+                toggleBox: function() {
+                    this.isVisible =!this.isVisible;
+                }
+            }
+        })
+        app.mount('#mainpage')
+    </script>
+</body>

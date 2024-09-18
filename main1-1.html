@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Lean Vue</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+        .box.two {
+            background-color: #111;
+        }
+        .box.three {
+            background-color: #666;
+        }
+        [v-cloak] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="mainpage" v-cloak>
+        <h1>Learning Vue</h1>
+        {{message}}
+        <input v-model="message">
+
+        <div v-if="isVissible" class="box"></div>
+        <div v-else-if="isVissible2" class="box two"></div>
+        <div v-else class="box three"></div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        let app = Vue.createApp({
+            data: function () {
+                return {
+                    message: "Hi World",
+                    isVissble: false,
+                    isVissble2: false
+                }
+            }
+        })
+        app.mount('#mainpage')
+    </script>
+</body>

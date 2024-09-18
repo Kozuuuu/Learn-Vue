@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Lean Vue</title>
+    <style>
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: red;
+        }
+        input {
+            margin: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div id="mainpage" v-cloak>
+        <h1>Learning Vue</h1>
+        {{message}}
+        
+        <login-form /> 
+
+        <button @click="toggleBox">Toggle Visibility</button>
+        <div v-if="isVisible" class="box"></div>
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        let app = Vue.createApp({
+            data: function () {
+                return {
+                    message: "Hi World",
+                    isVisible: false
+                }
+            },
+            methods: {
+                toggleBox: function() {
+                    this.isVisible =!this.isVisible;
+                }
+            }
+        })
+
+        app.component('login-form', {
+            template: `
+                <form @submit.prevent ="handleSubmit">
+                    <h1>{{ title }}</h1>
+                    <input type="email" v-model="email" placeholder="Enter email" />
+                    <input type="password" v-model="password" placeholder="Enter password" />
+                    <button @click="login">Login</button>
+                </form>
+            `,
+            data() {
+                return {
+                    title: 'Login Form -',
+                    email: '',
+                    password: ''
+                }
+            },
+            methods: {
+                handleSubmit() {
+                    console.log("this.email, this.password");
+                }
+            }
+
+        })
+
+
+
+        app.mount('#mainpage')
+    </script>
+</body>
