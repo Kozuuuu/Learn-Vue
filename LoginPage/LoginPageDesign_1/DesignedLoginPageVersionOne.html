@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Form</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        margin: 0;
+        font-family: Arial, sans-serif;
+      }
+      #loginpage {
+        background: white;
+        padding: 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 400px;
+      }
+      h1 {
+        margin-bottom: 1.5rem;
+        color: #333;
+        font-size: 1.5rem;
+      }
+      input {
+        margin: 10px 0;
+        display: block;
+        width: calc(100% - 20px);
+        padding: 10px;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        box-sizing: border-box;
+      }
+      input:focus {
+        border-color: #007bff;
+        outline: none;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+      button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="loginpage" v-cloak>
+      <login-form />
+    </div>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      const app = Vue.createApp({});
+
+      // Login form component
+      app.component("login-form", {
+        template: `
+        <form @submit.prevent="handleSubmit">
+          <h1>{{ title }}</h1>
+          <custom-input
+            v-for="(input, index) in inputs"
+            :key="index"
+            v-model="input.value"
+            :label="input.label"
+            :type="input.type"
+          />
+          <button type="submit">Login</button>
+        </form>
+      `,
+        components: {
+          "custom-input": app.component("custom-input"),
+        },
+        data() {
+          return {
+            title: "Login Form - Please Login",
+            inputs: [
+              {
+                label: "Email",
+                value: "",
+                type: "email",
+              },
+              {
+                label: "Password",
+                value: "",
+                type: "password",
+              },
+            ],
+          };
+        },
+        methods: {
+          handleSubmit() {
+            const email = this.inputs[0].value;
+            const password = this.inputs[1].value;
+            console.log(`Email: ${email}, Password: ${password}`);
+            // Implement your login logic here
+          },
+        },
+      });
+
+      // Custom input component
+      app.component("custom-input", {
+        template: `
+        <label>
+          {{ label }}
+          <input :type="type" v-model="inputValue">
+        </label>
+      `,
+        props: {
+          label: String,
+          type: String,
+          modelValue: [String, Number],
+        },
+        computed: {
+          inputValue: {
+            get() {
+              return this.modelValue;
+            },
+            set(value) {
+              this.$emit("update:modelValue", value);
+            },
+          },
+        },
+      });
+
+      // Mount the Vue app
+      app.mount("#loginpage");
+    </script>
+  </body>
+</html>
