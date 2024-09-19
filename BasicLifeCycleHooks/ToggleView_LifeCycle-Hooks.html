@@ -21,13 +21,8 @@
   </head>
   <body>
     <div id="mainpage" v-cloak>
-      <h1>Learning Vue</h1>
-      {{message}}
-      <input v-model="message" />
-
-      <!-- <button v-on:click="isVisible = !isVisible">Toggle Visibility</button> -->
-      <button @click="isVisible = !isVisible">Toggle Visibility</button>
-      <div v-if="isVisible" class="box"></div>
+      <button @click="toggleBox">Toggle Box</button>
+      <test-box v-if="isVisible"></test-box>
     </div>
 
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -35,9 +30,30 @@
       let app = Vue.createApp({
         data: function () {
           return {
-            message: "Hi World",
             isVisible: false,
           };
+        },
+        methods: {
+          toggleBox: function () {
+            this.isVisible = !this.isVisible;
+          },
+        },
+        updated() {
+          console.log("updated");
+        },
+      });
+      app.component("test-box", {
+        template: `
+                  <div class="box"></div>
+            `,
+        created() {
+          console.log("created");
+        },
+        mounted() {
+          console.log("mounted");
+        },
+        unmounted() {
+          console.log("unmounted");
         },
       });
       app.mount("#mainpage");
